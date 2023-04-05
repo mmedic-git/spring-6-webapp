@@ -2,6 +2,7 @@ package guru.springframework.spring6webapp.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,10 +18,12 @@ public class Book {
 
 
 
-    @ManyToMany(mappedBy = "books")
-    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+    @ManyToMany
+    @JoinTable(name = "author_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
 
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();  /* Set<Author> je kolekcija Author objekata koja ne dozvoljava dupliranje Author objekata, što je ispravno logički uzevši u obzirom logički dizajn */
 
     public Set<Author> getAuthors() {
         return authors;
@@ -68,11 +71,12 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Book book)) return false;
-        return Objects.equals(getId(), book.getId());
+
+        return getId() != null ? getId().equals(book.getId()) : book.getId() == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return getId() != null ? getId().hashCode() : 0;
     }
 }
