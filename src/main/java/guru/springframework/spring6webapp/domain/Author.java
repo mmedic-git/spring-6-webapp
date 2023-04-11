@@ -2,11 +2,13 @@ package guru.springframework.spring6webapp.domain;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-
+/**
+ * Created by jt, Spring Framework Guru.
+ */
 @Entity
 public class Author {
 
@@ -15,7 +17,6 @@ public class Author {
     private Long id;
     private String firstName;
     private String lastName;
-
 
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
@@ -27,7 +28,6 @@ public class Author {
     public void setBooks(Set<Book> books) {
         this.books = books;
     }
-
 
     public Long getId() {
         return id;
@@ -53,21 +53,22 @@ public class Author {
         this.lastName = lastName;
     }
 
-
     @Override
     public String toString() {
         return "Author{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", books=" + books +
+                // ", books=" + books +  // iz nekog razloga puca na ovome, istraži dodatno
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Author author)) return false;
+        if (!(o instanceof Author)) return false;
+
+        Author author = (Author) o;
 
         return getId() != null ? getId().equals(author.getId()) : author.getId() == null;
     }
