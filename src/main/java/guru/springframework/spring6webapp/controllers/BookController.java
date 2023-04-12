@@ -14,6 +14,8 @@ public class BookController {
         this.booksService = booksService;
     }
 
+
+    //objasnimo springboot-u da kad dobije request localost../books iz browsera što treba napraviti....
     @RequestMapping("/books")
     public String getBooks(Model model) {
 
